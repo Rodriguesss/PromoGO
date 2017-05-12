@@ -1,6 +1,34 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	var parentJsonpFunction = window["webpackJsonp"];
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [], result;
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId])
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules, executeModules);
+/******/ 		while(resolves.length)
+/******/ 			resolves.shift()();
+/******/
+/******/ 	};
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// objects to store loaded and loading chunks
+/******/ 	var installedChunks = {
+/******/ 		0: 0
+/******/ 	};
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +54,49 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		if(installedChunks[chunkId] === 0)
+/******/ 			return Promise.resolve();
+/******/
+/******/ 		// an Promise means "currently loading".
+/******/ 		if(installedChunks[chunkId]) {
+/******/ 			return installedChunks[chunkId][2];
+/******/ 		}
+/******/ 		// start chunk loading
+/******/ 		var head = document.getElementsByTagName('head')[0];
+/******/ 		var script = document.createElement('script');
+/******/ 		script.type = 'text/javascript';
+/******/ 		script.charset = 'utf-8';
+/******/ 		script.async = true;
+/******/ 		script.timeout = 120000;
+/******/
+/******/ 		if (__webpack_require__.nc) {
+/******/ 			script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 		}
+/******/ 		script.src = __webpack_require__.p + "" + chunkId + ".main.js";
+/******/ 		var timeout = setTimeout(onScriptComplete, 120000);
+/******/ 		script.onerror = script.onload = onScriptComplete;
+/******/ 		function onScriptComplete() {
+/******/ 			// avoid mem leaks in IE.
+/******/ 			script.onerror = script.onload = null;
+/******/ 			clearTimeout(timeout);
+/******/ 			var chunk = installedChunks[chunkId];
+/******/ 			if(chunk !== 0) {
+/******/ 				if(chunk) chunk[1](new Error('Loading chunk ' + chunkId + ' failed.'));
+/******/ 				installedChunks[chunkId] = undefined;
+/******/ 			}
+/******/ 		};
+/******/
+/******/ 		var promise = new Promise(function(resolve, reject) {
+/******/ 			installedChunks[chunkId] = [resolve, reject];
+/******/ 		});
+/******/ 		installedChunks[chunkId][2] = promise;
+/******/
+/******/ 		head.appendChild(script);
+/******/ 		return promise;
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -61,6 +132,9 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "build/";
+/******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 260);
@@ -54860,7 +54934,7 @@ function SlideEdgeGesture_tsickle_Closure_declarations() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_modal_modal_controller__ = __webpack_require__(134);
 /* unused harmony reexport ModalController */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_nav_nav__ = __webpack_require__(67);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_54__components_nav_nav__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_54__components_nav_nav__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_nav_nav_pop__ = __webpack_require__(65);
 /* unused harmony reexport NavPop */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_nav_nav_pop_anchor__ = __webpack_require__(136);
@@ -54977,20 +55051,20 @@ function SlideEdgeGesture_tsickle_Closure_declarations() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_110__platform_dom_controller__ = __webpack_require__(8);
 /* unused harmony reexport DomController */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_111__platform_platform__ = __webpack_require__(3);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_111__platform_platform__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_111__platform_platform__["a"]; });
 /* unused harmony reexport setupPlatform */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_112__tap_click_haptic__ = __webpack_require__(35);
 /* unused harmony reexport Haptic */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_113__navigation_deep_linker__ = __webpack_require__(14);
 /* unused harmony reexport DeepLinker */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_114__navigation_ionic_page__ = __webpack_require__(226);
-/* unused harmony reexport IonicPage */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_114__navigation_ionic_page__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_115__navigation_nav_controller__ = __webpack_require__(18);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_115__navigation_nav_controller__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_115__navigation_nav_controller__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_116__navigation_nav_controller_base__ = __webpack_require__(44);
 /* unused harmony reexport NavControllerBase */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_117__navigation_nav_params__ = __webpack_require__(15);
-/* unused harmony reexport NavParams */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_117__navigation_nav_params__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_118__navigation_nav_util__ = __webpack_require__(21);
 /* unused harmony reexport DeepLinkMetadata */
 /* unused harmony reexport DeepLinkMetadataFactory */
@@ -55049,7 +55123,7 @@ function SlideEdgeGesture_tsickle_Closure_declarations() {
 /* unused harmony reexport IonicGestureConfig */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_138__module__ = __webpack_require__(225);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_138__module__["a"]; });
-/* unused harmony reexport IonicPageModule */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_138__module__["b"]; });
 /* unused harmony reexport provideLocationStrategy */
 
 
@@ -55612,12 +55686,11 @@ var InicioPage = (function () {
 }());
 InicioPage = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
-        selector: 'inicio-home',template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\pages\inicio\inicio.html"*/'<ion-header>\n <cabecalho [title]="\'PromoGO\'"></cabecalho>\n</ion-header>\n\n<ion-content padding>\n\n 	<ion-grid>\n\n    <!-- Inicio do butao flutuante search -->\n     <ion-fab id="butao-flutuante">\n       <button ion-fab>  <ion-icon name="add"></ion-icon> </button>\n       <ion-fab-list side="left">\n         <button ion-fab> <ion-icon name="search" color="primary" id="icon-flut"></ion-icon> </button>\n         <button ion-fab> <ion-icon name="basket" color="primary" id="icon-flut"></ion-icon> </button>\n         <button ion-fab> <ion-icon name="cart" color="primary" id="icon-flut"></ion-icon> </button>\n       </ion-fab-list>\n       <ion-fab-list side="top">\n         <button ion-fab> <ion-icon name="home" color="primary" id="icon-flut"></ion-icon> </button>\n       </ion-fab-list>\n\n     </ion-fab>\n    <!-- Fim do butao flutuante search -->\n\n\n\n 		<!-- Inicio do Slider -->\n		<ion-row>\n			<div id="slide">\n			    <ion-slides pager="true" autoplay="4500" loop="true">\n			      <ion-slide>\n			        <img src="img/bretas.png">\n			      </ion-slide>\n			      <ion-slide>\n			        <img src="img/bernadao.png">\n			      </ion-slide>\n			      <ion-slide>\n			        <img src="img/martminas.png">\n			      </ion-slide>\n			      <ion-slide>\n			        <img src="img/smart.png">\n			      </ion-slide>\n			      <ion-slide>\n			        <img src="img/extra.png">\n			      </ion-slide>\n			      <ion-slide>\n			        <img src="img/abc.png">\n			      </ion-slide>\n			    </ion-slides>\n			</div>\n		</ion-row>\n		<!-- Final do Slider -->\n\n		<!-- Inicio dos butoes opcoes -->\n	 	<ion-row>\n	 		<ion-col col-4>\n				<button ion-button round id="opcoes">Destaques</button>\n			</ion-col>\n			<ion-col col-4>\n				<button ion-button round id="opcoes">Categorias</button>\n			</ion-col>\n			<ion-col col-4>\n				<button ion-button round id="opcoes">Comercios</button>\n			</ion-col>\n		</ion-row>\n		<!-- Fim -->\n\n			<!-- Inico dos destaques ( bebidas ) -->\n\n			<h5>Bebidas</h5>\n			<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n		<ion-row>\n	 		<ion-col col-4>\n	 			Skol\n				<ion-img width="65" height="110" src="img/produtos/bebida1.png" id="img-itens"></ion-img>\n				 <strong>R$2,59</strong>\n			</ion-col>\n			<ion-col col-4>\n				Brahma\n				<ion-img width="65" height="110" src="img/produtos/bebida2.png" id="img-itens"></ion-img>\n				<strong>R$2,65</strong>\n			</ion-col>\n			<ion-col col-4>\n				Heineken\n				<ion-img width="65" height="110" src="img/produtos/bebida3.png" id="img-itens"></ion-img>\n				<strong>R$2,78</strong>\n			</ion-col>\n		</ion-row>\n\n			<!--  Fim	 -->\n\n		<ion-img src="img/linha.png" id="linha"></ion-img> <!--  Linha de separação dos itens -->\n\n		<!-- Inicio dos destaques ( Arroz ) -->\n\n			<h5>Arroz</h5>\n			<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n			<ion-row>\n		 		<ion-col col-4>\n		 			Urbano\n					<ion-img width="80" height="95" src="img/produtos/arroz1.png" id="img-itens"></ion-img>\n					 <strong>R$10,59</strong>\n				</ion-col>\n				<ion-col col-4>\n					Pileco\n					<ion-img width="80" height="95" src="img/produtos/arroz2.png" id="img-itens"></ion-img>\n					<strong>R$11,17</strong>\n				</ion-col>\n				<ion-col col-4>\n					Super Ecco\n					<ion-img width="80" height="95" src="img/produtos/arroz3.png" id="img-itens"></ion-img>\n					<strong>R$10,43</strong>\n				</ion-col>\n			</ion-row>\n\n			<!-- Fim -->\n\n			<ion-img src="img/linha.png" id="linha"></ion-img> <!--  Linha de separação dos itens -->\n\n			<!-- Inicio dos destaques ( Linguiças ) -->\n\n				<h5>Linguiças</h5>\n				<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n				<ion-row>\n			 		<ion-col col-4>\n			 			S.Toscana\n						<ion-img width="85" height="95" src="img/produtos/ling1.png" id="img-itens"></ion-img>\n						 <strong>R$24,59</strong>\n					</ion-col>\n					<ion-col col-4>\n						A.Frango\n						<ion-img width="85" height="95" src="img/produtos/ling2.png" id="img-itens"></ion-img>\n						<strong>R$22,17</strong>\n					</ion-col>\n					<ion-col col-4>\n						S.Frango\n						<ion-img width="85" height="95" src="img/produtos/ling3.png" id="img-itens"></ion-img>\n						<strong>R$21,43</strong>\n					</ion-col>\n				</ion-row>\n\n				<!-- Fim -->\n\n	</ion-grid>\n\n</ion-content>>\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\pages\inicio\inicio.html"*/
+        selector: 'inicio-home',template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\pages\inicio\inicio.html"*/'<ion-header>\n\n <cabecalho [title]="\'PromoGO\'"></cabecalho>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n\n\n 	<ion-grid>\n\n\n\n    <!-- Inicio do butao flutuante search -->\n\n     <ion-fab id="butao-flutuante">\n\n       <button ion-fab>  <ion-icon name="add"></ion-icon> </button>\n\n       <ion-fab-list side="left">\n\n         <button ion-fab> <ion-icon name="search" color="primary" id="icon-flut"></ion-icon> </button>\n\n         <button ion-fab> <ion-icon name="basket" color="primary" id="icon-flut"></ion-icon> </button>\n\n         <button ion-fab> <ion-icon name="cart" color="primary" id="icon-flut"></ion-icon> </button>\n\n       </ion-fab-list>\n\n       <ion-fab-list side="top">\n\n         <button ion-fab> <ion-icon name="home" color="primary" id="icon-flut"></ion-icon> </button>\n\n       </ion-fab-list>\n\n\n\n     </ion-fab>\n\n    <!-- Fim do butao flutuante search -->\n\n\n\n\n\n\n\n 		<!-- Inicio do Slider -->\n\n		<ion-row>\n\n			<div id="slide">\n\n			    <ion-slides pager="true" autoplay="4500" loop="true">\n\n			      <ion-slide>\n\n			        <img src="img/bretas.png">\n\n			      </ion-slide>\n\n			      <ion-slide>\n\n			        <img src="img/bernadao.png">\n\n			      </ion-slide>\n\n			      <ion-slide>\n\n			        <img src="img/martminas.png">\n\n			      </ion-slide>\n\n			      <ion-slide>\n\n			        <img src="img/smart.png">\n\n			      </ion-slide>\n\n			      <ion-slide>\n\n			        <img src="img/extra.png">\n\n			      </ion-slide>\n\n			      <ion-slide>\n\n			        <img src="img/abc.png">\n\n			      </ion-slide>\n\n			    </ion-slides>\n\n			</div>\n\n		</ion-row>\n\n		<!-- Final do Slider -->\n\n\n\n		<!-- Inicio dos butoes opcoes -->\n\n	 	<ion-row>\n\n	 		<ion-col col-4>\n\n				<button ion-button round id="opcoes">Destaques</button>\n\n			</ion-col>\n\n			<ion-col col-4>\n\n				<button ion-button round id="opcoes">Categorias</button>\n\n			</ion-col>\n\n			<ion-col col-4>\n\n				<button ion-button round id="opcoes">Comercios</button>\n\n			</ion-col>\n\n		</ion-row>\n\n		<!-- Fim -->\n\n\n\n			<!-- Inico dos destaques ( bebidas ) -->\n\n\n\n			<h5>Bebidas</h5>\n\n			<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n\n\n		<ion-row>\n\n	 		<ion-col col-4>\n\n	 			Skol\n\n				<ion-img width="65" height="110" src="img/produtos/bebida1.png" id="img-itens"></ion-img>\n\n				 <strong>R$2,59</strong>\n\n			</ion-col>\n\n			<ion-col col-4>\n\n				Brahma\n\n				<ion-img width="65" height="110" src="img/produtos/bebida2.png" id="img-itens"></ion-img>\n\n				<strong>R$2,65</strong>\n\n			</ion-col>\n\n			<ion-col col-4>\n\n				Heineken\n\n				<ion-img width="65" height="110" src="img/produtos/bebida3.png" id="img-itens"></ion-img>\n\n				<strong>R$2,78</strong>\n\n			</ion-col>\n\n		</ion-row>\n\n\n\n			<!--  Fim	 -->\n\n\n\n		<ion-img src="img/linha.png" id="linha"></ion-img> <!--  Linha de separação dos itens -->\n\n\n\n		<!-- Inicio dos destaques ( Arroz ) -->\n\n\n\n			<h5>Arroz</h5>\n\n			<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n\n\n			<ion-row>\n\n		 		<ion-col col-4>\n\n		 			Urbano\n\n					<ion-img width="80" height="95" src="img/produtos/arroz1.png" id="img-itens"></ion-img>\n\n					 <strong>R$10,59</strong>\n\n				</ion-col>\n\n				<ion-col col-4>\n\n					Pileco\n\n					<ion-img width="80" height="95" src="img/produtos/arroz2.png" id="img-itens"></ion-img>\n\n					<strong>R$11,17</strong>\n\n				</ion-col>\n\n				<ion-col col-4>\n\n					Super Ecco\n\n					<ion-img width="80" height="95" src="img/produtos/arroz3.png" id="img-itens"></ion-img>\n\n					<strong>R$10,43</strong>\n\n				</ion-col>\n\n			</ion-row>\n\n\n\n			<!-- Fim -->\n\n\n\n			<ion-img src="img/linha.png" id="linha"></ion-img> <!--  Linha de separação dos itens -->\n\n\n\n			<!-- Inicio dos destaques ( Linguiças ) -->\n\n\n\n				<h5>Linguiças</h5>\n\n				<span id="subtitulo-ofertas">Destaques do Mês</span><br>\n\n\n\n				<ion-row>\n\n			 		<ion-col col-4>\n\n			 			S.Toscana\n\n						<ion-img width="85" height="95" src="img/produtos/ling1.png" id="img-itens"></ion-img>\n\n						 <strong>R$24,59</strong>\n\n					</ion-col>\n\n					<ion-col col-4>\n\n						A.Frango\n\n						<ion-img width="85" height="95" src="img/produtos/ling2.png" id="img-itens"></ion-img>\n\n						<strong>R$22,17</strong>\n\n					</ion-col>\n\n					<ion-col col-4>\n\n						S.Frango\n\n						<ion-img width="85" height="95" src="img/produtos/ling3.png" id="img-itens"></ion-img>\n\n						<strong>R$21,43</strong>\n\n					</ion-col>\n\n				</ion-row>\n\n\n\n				<!-- Fim -->\n\n\n\n	</ion-grid>\n\n\n\n</ion-content>>\n\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\pages\inicio\inicio.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]])
 ], InicioPage);
 
-var _a;
 //# sourceMappingURL=inicio.js.map
 
 /***/ }),
@@ -74063,15 +74136,34 @@ module.exports = g;
 
 /***/ }),
 /* 192 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function webpackEmptyContext(req) {
-	throw new Error("Cannot find module '" + req + "'.");
-}
-webpackEmptyContext.keys = function() { return []; };
-webpackEmptyContext.resolve = webpackEmptyContext;
-module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 192;
+var map = {
+	"../pages/comercios/comercios.module": [
+		261,
+		5
+	],
+	"../pages/destaques/destaques.module": [
+		263,
+		4
+	],
+	"../pages/search/search.module": [
+		267,
+		1
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];	if(!ids)
+		return Promise.reject(new Error("Cannot find module '" + req + "'."));
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(ids[0]);
+	});
+};
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+module.exports = webpackAsyncContext;
+webpackAsyncContext.id = 192;
 
 
 /***/ }),
@@ -74084,9 +74176,11 @@ webpackEmptyContext.id = 192;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_inicio_inicio__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_cabecalho_cabecalho__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_comercios_comercios__ = __webpack_require__(262);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_search_search__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_status_bar__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_splash_screen__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_cabecalho_cabecalho__ = __webpack_require__(196);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -74094,6 +74188,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -74112,20 +74208,30 @@ AppModule = __decorate([
         declarations: [
             __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
             __WEBPACK_IMPORTED_MODULE_4__pages_inicio_inicio__["a" /* InicioPage */],
-            __WEBPACK_IMPORTED_MODULE_7__components_cabecalho_cabecalho__["a" /* CabecalhoComponent */],
+            __WEBPACK_IMPORTED_MODULE_5__pages_comercios_comercios__["a" /* ComerciosPage */],
+            __WEBPACK_IMPORTED_MODULE_6__pages_search_search__["a" /* SearchPage */],
+            __WEBPACK_IMPORTED_MODULE_9__components_cabecalho_cabecalho__["a" /* CabecalhoComponent */],
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */]),
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {}, {
+                links: [
+                    { loadChildren: '../pages/comercios/comercios.module#ComerciosPageModule', name: 'ComerciosPage', segment: 'comercios', priority: 'low', defaultHistory: [] },
+                    { loadChildren: '../pages/destaques/destaques.module#DestaquesPageModule', name: 'DestaquesPage', segment: 'destaques', priority: 'low', defaultHistory: [] },
+                    { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] }
+                ]
+            }),
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
         entryComponents: [
             __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
             __WEBPACK_IMPORTED_MODULE_4__pages_inicio_inicio__["a" /* InicioPage */],
+            __WEBPACK_IMPORTED_MODULE_5__pages_comercios_comercios__["a" /* ComerciosPage */],
+            __WEBPACK_IMPORTED_MODULE_6__pages_search_search__["a" /* SearchPage */],
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__["a" /* SplashScreen */],
+            __WEBPACK_IMPORTED_MODULE_7__ionic_native_status_bar__["a" /* StatusBar */],
+            __WEBPACK_IMPORTED_MODULE_8__ionic_native_splash_screen__["a" /* SplashScreen */],
             { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicErrorHandler */] }
         ]
     })
@@ -74329,6 +74435,8 @@ var platformBrowserDynamic = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_inicio_inicio__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_comercios_comercios__ = __webpack_require__(262);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_destaques_destaques__ = __webpack_require__(264);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -74344,6 +74452,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var MyApp = (function () {
     function MyApp(platform, statusBar, splashScreen) {
         this.platform = platform;
@@ -74353,6 +74463,8 @@ var MyApp = (function () {
         this.initializeApp();
         this.pages = [
             { title: 'Inicio', component: __WEBPACK_IMPORTED_MODULE_4__pages_inicio_inicio__["a" /* InicioPage */] },
+            { title: 'Comercios', component: __WEBPACK_IMPORTED_MODULE_5__pages_comercios_comercios__["a" /* ComerciosPage */] },
+            { title: 'Destaques', component: __WEBPACK_IMPORTED_MODULE_6__pages_destaques_destaques__["a" /* DestaquesPage */] },
         ];
     }
     MyApp.prototype.initializeApp = function () {
@@ -74372,15 +74484,16 @@ var MyApp = (function () {
     return MyApp;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* Nav */]),
-    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* Nav */])
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _a || Object)
 ], MyApp.prototype, "nav", void 0);
 MyApp = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\app\app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar color="primary">\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\app\app.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _d || Object])
 ], MyApp);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -107560,7 +107673,7 @@ function PanRecognizer_tsickle_Closure_declarations() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_120__components_virtual_scroll_virtual_item__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_121__components_virtual_scroll_virtual_scroll__ = __webpack_require__(167);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IonicModule; });
-/* unused harmony export IonicPageModule */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return IonicPageModule; });
 /* unused harmony export provideLocationStrategy */
 /**
  * Import Angular
@@ -108109,7 +108222,7 @@ function provideLocationStrategy(platformLocationStrategy, baseHref, config) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export IonicPage */
+/* harmony export (immutable) */ __webpack_exports__["a"] = IonicPage;
 /**
  * \@name IonicPage
  * \@description
@@ -111250,6 +111363,146 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
+
+/***/ }),
+/* 261 */,
+/* 262 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(91);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComerciosPage; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the ComerciosPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var ComerciosPage = (function () {
+    function ComerciosPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    ComerciosPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ComerciosPage');
+    };
+    return ComerciosPage;
+}());
+ComerciosPage = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+        selector: 'page-comercios',template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\pages\comercios\comercios.html"*/'<!--\n  Generated template for the ComerciosPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Comercios</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\pages\comercios\comercios.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
+], ComerciosPage);
+
+//# sourceMappingURL=comercios.js.map
+
+/***/ }),
+/* 263 */,
+/* 264 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(91);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DestaquesPage; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the DestaquesPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var DestaquesPage = (function () {
+    function DestaquesPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    DestaquesPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad DestaquesPage');
+    };
+    return DestaquesPage;
+}());
+DestaquesPage = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+        selector: 'page-destaques',template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\pages\destaques\destaques.html"*/'<!--\n  Generated template for the DestaquesPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>destaques</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\pages\destaques\destaques.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
+], DestaquesPage);
+
+//# sourceMappingURL=destaques.js.map
+
+/***/ }),
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(91);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchPage; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the SearchPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var SearchPage = (function () {
+    function SearchPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    SearchPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SearchPage');
+    };
+    return SearchPage;
+}());
+SearchPage = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+        selector: 'page-search',template:/*ion-inline-start:"C:\Users\lucas\Documents\PromoGO\src\pages\search\search.html"*/'<!--\n  Generated template for the SearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\lucas\Documents\PromoGO\src\pages\search\search.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
+], SearchPage);
+
+//# sourceMappingURL=search.js.map
 
 /***/ })
 /******/ ]);

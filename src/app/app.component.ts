@@ -4,6 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { InicioPage } from '../pages/inicio/inicio';
+import { ComerciosPage } from '../pages/comercios/comercios';
+import { DestaquesPage } from '../pages/destaques/destaques';
+
 
 
 @Component({
@@ -22,6 +25,9 @@ export class MyApp {
 
     this.pages = [
       { title: 'Inicio', component: InicioPage },
+      { title: 'Comercios', component: ComerciosPage },
+      { title: 'Destaques', component: DestaquesPage },
+
 
     ];
 

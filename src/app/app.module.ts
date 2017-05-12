@@ -4,6 +4,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { InicioPage } from '../pages/inicio/inicio';
+import { ComerciosPage } from '../pages/comercios/comercios';
+import { SearchPage } from '../pages/search/search';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -15,7 +17,11 @@ import { CabecalhoComponent } from '../components/cabecalho/cabecalho';
   declarations: [
     MyApp,
     InicioPage,
+    ComerciosPage,
+    SearchPage,
     CabecalhoComponent,
+
+
 
   ],
   imports: [
@@ -26,6 +32,8 @@ import { CabecalhoComponent } from '../components/cabecalho/cabecalho';
   entryComponents: [
     MyApp,
     InicioPage,
+    ComerciosPage,
+    SearchPage,
 
   ],
   providers: [
