@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'inicio-home',
-  templateUrl: 'inicio.php'
+  templateUrl: 'inicio.html'
 })
 export class InicioPage {
 
